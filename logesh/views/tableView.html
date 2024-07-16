@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVC Table</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            cursor: pointer;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .pagination button {
+            margin: 0 2px;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>MVC Table</h1>
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th onclick="sortTable(0)">Name</th>
+                <th onclick="sortTable(1)">Age</th>
+                <th onclick="sortTable(2)">Country</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be dynamically added here -->
+        </tbody>
+    </table>
+    <div class="pagination">
+        <button onclick="prevPage()">Prev</button>
+        <button onclick="nextPage()">Next</button>
+    </div>
+    <script type="module" src="../app.js"></script>
+</body>
+</html>

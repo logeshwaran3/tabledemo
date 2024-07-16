@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table with Sort and Pagination</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            cursor: pointer;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .pagination button {
+            margin: 0 2px;
+            padding: 5px 10px;
+        }
+        .slider {
+            display: flex;
+            overflow: hidden;
+            width: 300px;
+        }
+        .slider img {
+            width: 300px;
+            height: 200px;
+        }
+        .slider-container {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .arrow {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Table</h1>
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th onclick="sortTable(0)">Name</th>
+                <th onclick="sortTable(1)">Age</th>
+                <th onclick="sortTable(2)">Country</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be dynamically added here -->
+        </tbody>
+    </table>
+    <div class="pagination">
+        <button onclick="prevPage()">Prev</button>
+        <button onclick="nextPage()">Next</button>
+    </div>
+
+    <h1>Infinite Slider</h1>
+    <div class="slider">
+        <span class="arrow" onclick="prevSlide()">&#9664;</span>
+        <div class="slider-container" id="sliderContainer">
+            <!-- Images will be dynamically added here -->
+        </div>
+        <span class="arrow" onclick="nextSlide()">&#9654;</span>
+    </div>
+
+    <script>
+        // JavaScript for sorting and pagination
+        const tableData = [
+            { name: "Karthick", age: 23, country: "India" },
+            { name: "Logeshwaran", age: 23, country: "UK" },
+            { name: "Mareeswaran", age: 22, country: "USA" },
+            // Add more data as needed
+        ];
+        let currentPage = 1;
+        const rowsPerPage = 5;
+
+        function displayTable(page) {
+            const tableBody = document.querySelector("#dataTable tbody");
+            tableBody.innerHTML = "";
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const pageData = tableData.slice(start, end);
+            for (const row of pageData) {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `<td>${row.name}</td><td>${row.age}</td><td>${row.country}</td>`;
+                tableBody.appendChild(tr);
+            }
+        }
+
+        function sortTable(column) {
+            tableData.sort((a, b) => {
+                const valA = Object.values(a)[column];
+                const valB = Object.values(b)[column];
+                return valA > valB ? 1 : valA < valB ? -1 : 0;
+            });
+            displayTable(currentPage);
+        }
+
+        function nextPage() {
+            if (currentPage * rowsPerPage < tableData.length) {
+                currentPage++;
+                displayTable(currentPage);
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                displayTable(currentPage);
+            }
+        }
+
+        displayTable(currentPage);
+
+        // JavaScript for infinite slider
+        const images = [
+            "lgn1.jpg",
+            "lgn9.jpg",
+            "lgn10.jpg",
+            // Add more image paths
+        ];
+        let currentSlide = 0;
+
+        function displaySlider() {
+            const sliderContainer = document.getElementById("sliderContainer");
+            sliderContainer.innerHTML = "";
+            for (const img of images) {
+                const imgElement = document.createElement("img");
+                imgElement.src = img;
+                sliderContainer.appendChild(imgElement);
+            }
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % images.length;
+            document.getElementById("sliderContainer").style.transform = `translateX(-${currentSlide * 300}px)`;
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + images.length) % images.length;
+            document.getElementById("sliderContainer").style.transform = `translateX(-${currentSlide * 300}px)`;
+        }
+
+        displaySlider();
+    </script>
+
+</body>
+</html>
